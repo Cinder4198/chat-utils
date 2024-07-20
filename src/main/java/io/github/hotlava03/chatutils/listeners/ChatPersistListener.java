@@ -1,5 +1,6 @@
 package io.github.hotlava03.chatutils.listeners;
 
+import io.github.hotlava03.chatutils.ChatUtilsMod;
 import io.github.hotlava03.chatutils.events.ReceiveMessageCallback;
 import io.github.hotlava03.chatutils.fileio.ChatStorage;
 import net.minecraft.client.MinecraftClient;
@@ -26,7 +27,7 @@ public class ChatPersistListener implements ReceiveMessageCallback {
         var lines = storage.getStoredChatLines(address);
 
         if (!lines.isEmpty() && !storage.isBlockingChatEvents()) {
-            var last = Text.Serialization.fromJson(lines.get(lines.size() - 1));
+            var last = Text.Serialization.fromJson(lines.get(lines.size() - 1), ChatUtilsMod.wrapper);
             if (last == null) return;
             if (message.matches(".+" + ANTI_SPAM_REGEX)) {
                 var lastLine = this.removeAntiSpamIndicator(last.getString());
@@ -36,7 +37,7 @@ public class ChatPersistListener implements ReceiveMessageCallback {
             }
         }
 
-        storage.pushChat(Text.Serialization.toJsonString(text), address);
+        storage.pushChat(Text.Serialization.toJsonString(text, ChatUtilsMod.wrapper), address);
         storage.saveAsync();
     }
 

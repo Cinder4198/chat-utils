@@ -10,18 +10,26 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.message.v1.ClientSendMessageEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
+import net.minecraft.registry.RegistryWrapper;
 import org.apache.logging.log4j.LogManager;
 
+import java.util.stream.Stream;
+
 public class ChatUtilsMod implements ModInitializer {
+
+
+    public static RegistryWrapper.WrapperLookup wrapper;
 
     @Override
     public void onInitialize() {
         // To prevent HeadlessExceptions when copying to clipboard.
+
         System.setProperty("java.awt.headless", "false");
         ChatUtilsConfig.loadFromFile();
         ChatStorage.getInstance().load();
 
         // Register events.
+        wrapper = RegistryWrapper.WrapperLookup.of(Stream.empty());
         ClientPlayConnectionEvents.INIT.register(new RetrieveChatListener());
         var sendMessageListener = new SendMessageListener();
         ClientSendMessageEvents.CHAT.register(sendMessageListener);

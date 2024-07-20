@@ -1,5 +1,6 @@
 package io.github.hotlava03.chatutils.listeners;
 
+import io.github.hotlava03.chatutils.ChatUtilsMod;
 import io.github.hotlava03.chatutils.fileio.ChatStorage;
 import io.github.hotlava03.chatutils.fileio.ChatUtilsConfig;
 import io.github.hotlava03.chatutils.mixin.ChatHudAccessor;
@@ -43,7 +44,7 @@ public class RetrieveChatListener implements ClientPlayConnectionEvents.Init {
         }
         var date = new Date(storage.getTimestamp(address));
 
-        chatLines.forEach((line) -> client.inGameHud.getChatHud().addMessage(Text.Serialization.fromJson(line)));
+        chatLines.forEach((line) -> client.inGameHud.getChatHud().addMessage(Text.Serialization.fromJson(line, ChatUtilsMod.wrapper)));
         client.inGameHud.getChatHud().addMessage(Text.translatable("chat-utils.stored_messages", date));
         storage.setBlockingChatEvents(false);
     }

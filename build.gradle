@@ -1,5 +1,5 @@
 plugins {
-	id 'fabric-loom' version '1.5-SNAPSHOT'
+	id 'fabric-loom' version '1.7-SNAPSHOT'
 	id 'maven-publish'
 }
 
@@ -26,8 +26,8 @@ dependencies {
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
 	modCompileOnly "com.terraformersmc:modmenu:9.0.0"
-	modImplementation include("net.kyori:adventure-text-serializer-legacy:4.15.0")
-	modImplementation include("net.kyori:adventure-platform-fabric:5.11.0")
+	modImplementation include("net.kyori:adventure-text-serializer-legacy:4.17.0")
+	modImplementation include("net.kyori:adventure-platform-fabric:5.14.0")
 
 	// PSA: Some older mods, compiled on Loom 0.2.1, might have outdated Maven POMs.
 	// You may need to force-disable transitiveness on them.
