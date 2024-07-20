@@ -42,16 +42,29 @@ public class AntiSpamListener implements RecieveMessageAnitSpamCallback {
         var lineMatchCount = 0;
 
         for (int i = history.size() - 1; i >= 0; i--) {
-            String previousString = ChatUtilsConfig.ANTI_SPAM_IGNORE_COLORS.value()
-                    ? orderedTextToString(history.get(i).content())
-                    : LegacyComponentSerializer.legacySection().serialize(
-                            Component.textOfChildren(orderedTextToMutable(history.get(i).content())));
+            //TODO i think this way of checking if its null is doodoo but im trash at programming i barely even know whats happening
+            String previousString;
+            if(orderedTextToMutable((history.get(i).content())) == null) {
+                previousString = "";
+            }else {
+                previousString = ChatUtilsConfig.ANTI_SPAM_IGNORE_COLORS.value()
+                        ? orderedTextToString(history.get(i).content())
+                        : LegacyComponentSerializer.legacySection().serialize(
+                        Component.textOfChildren(orderedTextToMutable(history.get(i).content())));
+            }
+
 
             if (lineMatchCount <= splitLines.size() - 1) {
-                String nextString = ChatUtilsConfig.ANTI_SPAM_IGNORE_COLORS.value()
-                        ? orderedTextToString(splitLines.get(lineMatchCount))
-                        : LegacyComponentSerializer.legacySection().serialize(
-                        Component.textOfChildren(orderedTextToMutable(splitLines.get(lineMatchCount))));
+                //TODO this one too
+                String nextString;
+                if(orderedTextToMutable(splitLines.get(lineMatchCount)) == null) {
+                    nextString = "";
+                }else {
+                    nextString = ChatUtilsConfig.ANTI_SPAM_IGNORE_COLORS.value()
+                            ? orderedTextToString(splitLines.get(lineMatchCount))
+                            : LegacyComponentSerializer.legacySection().serialize(
+                            Component.textOfChildren(orderedTextToMutable(splitLines.get(lineMatchCount))));
+                }
 
                 if (lineMatchCount < splitLines.size() - 1) {
                     if ((ChatUtilsConfig.ANTI_SPAM_IGNORE_COLORS.value() && previousString.equals(nextString))) {
